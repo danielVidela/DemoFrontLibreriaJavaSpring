@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+
+    <title>Libros</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-sixteen.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+
+  </head>
+
+  <body>
+
+    <!-- ***** Preloader Start ***** -->
+    <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <!-- ***** Preloader End ***** -->
+
+    <!-- Header -->
+    <header class="">
+      <nav class="navbar navbar-expand-lg">
+        <div class="container">
+          <a class="navbar-brand" href="index.html"><h2>Libreria <em>Dany</em></h2></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu<span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="index.html#carrusell">Inicio
+
+                </a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link"  th:href="@{/libros/lista}">Libros
+
+                </a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link"th:href="@{/autores/lista}" >Autores
+
+                </a>
+              <li class="nav-item">
+                <a class="nav-link" href="index.html#registro">Registrarse</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" th:href="@{/login}">Ingresar</a>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <div class="container-fluid">
+       <div class="container m-auto">
+         <div th:if="${exito}!=null" class="card text-white bg-success mb-3">
+           <div class="card-body">
+             <h5 class="card-title">Exito</h5>
+             <p class="card-text" th:text="${exito}"></p>
+           </div>
+         </div>
+         <div th:if="${error}!=null" class="card text-white bg-danger mb-3">
+           <div class="card-body">
+             <h5 class="card-title">Error</h5>
+             <p class="card-text" th:text="${error}"></p>
+           </div>
+         </div>
+       </div>
+       <div class="card mt-3">
+           <div class="card-header d-flex">
+               <h1> Lista de Libros</h1>
+               <a th:href="@{/libros/registroLibro}" class="btn btn-dark my-2 ms-auto">NUEVO LIBRO</a>
+           </div>
+           <div class="card-body">
+               <form class="row g-3" th:action="@{/libros/lista}" method="GET">
+                   <div class="col">
+                       <input type="text" style="width: 100%;" name="buscar" placeholder="Buscar...">
+                   </div>
+                   <div class="col-2">
+                     <button type="submit" class="btn btn-dark mb-3">Buscar</button>
+                   </div>
+               </form>
+               <table class="table table-dark table-striped">
+                   <thead>
+                       <tr>
+                           <th>N°</th>
+                           <th>Titulo</th>
+                           <th>Autor</th>
+                           <th>Editorial</th>
+                           <th>Ejemplares</th>
+                           <th>Administracion</th>
+                       </tr>
+                   </thead>
+                   <tbody>
+                     <!-- En esta linea declaro un Iterator que recorre la lista libros pero solo si el atributo alta es TRUE -->
+                       <tr th:each="p,iterator : ${libros}" th:if="${p.alta} == TRUE">
+                           <td th:text="${iterator.index+1}"></td>
+                           <td th:text="${p.titulo}"></td>
+                           <td th:text="${p.autor} == null ? 'sin registro' : ${p.autor.nombre} "></td>
+                           <td th:text="${p.editorial} == null ? 'sin registro' : ${p.editorial.nombre} "></td>
+                           <td th:text="${p.ejemplares}"></td>
+                           <td>
+                             <a class="mx-2" th:href="@{/libros/registroLibro}+'?id='+${p.id}"><i class="fas fa-edit"></i></a>
+                             <a class="mx-2" th:href="@{/libros/borrar}+'?id='+${p.id}"><i class="fas fa-trash-alt"></i></a>
+                           </td>
+                       </tr>
+                   </tbody>
+                   <p th:if="${libros.isEmpty}">No hay libros para mostrar</p>
+               </table>
+           </div>
+       </div>
+   </div>
+
+
+
+
+
+
+
+
+
+    <footer>
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="inner-content">
+              <p>Proyecto final de curso de desarrollo web fullstack
+
+            - Design: <a i rel="nofollow noopener" href="https://www.linkedin.com/in/daniel-videla-fullstackdeveloper/" target="_blank">Daniel Videla</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-- Additional Scripts -->
+    <script src="assets/js/custom.js"></script>
+    <script src="assets/js/owl.js"></script>
+    <script src="assets/js/slick.js"></script>
+    <script src="assets/js/isotope.js"></script>
+    <script src="assets/js/accordions.js"></script>
+
+
+  
+
+
+  </body>
+
+</html>
